@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #ffffff; /* Set background to white */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-in-out forwards;
+}
+
+.animate-fade-in-delay {
+    animation-delay: 2s;
+    animation: fade-in 2s ease-in-out forwards;
+     /* Delay for the second text */
+}
+
+.hero-title {
+    margin-top: 20vh; /* Move the title higher up */
+}
+
+/* @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .animate-gradient {
+    background: linear-gradient(270deg, #1e3a8a, #3b82f6, #60a5fa, #93c5fd);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  } */

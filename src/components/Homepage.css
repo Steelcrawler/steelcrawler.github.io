@@ -1,0 +1,68 @@
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.home-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+section {
+  scroll-snap-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.banner {
+  background-color: #FFA500; /* Nice orange color */
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.banner.hidden {
+  transform: translateY(-100%);
+}
+
+.hero-title, .introduction h2, .projects h2, .skills h2, .contact h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.hero-subtitle, .introduction p, .projects p, .skills p, .contact p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #FFA500; /* Match the banner color */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+  background-color: #e59400; /* Slightly darker shade of orange for hover effect */
+}
