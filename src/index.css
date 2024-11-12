@@ -39,6 +39,15 @@ body {
     margin-top: 20vh; /* Move the title higher up */
 }
 
+.slider-track {
+  position: relative;
+}
+
+.slider-handle {
+  position: relative;
+}
+
+
 /* @keyframes gradient {
     0% {
       background-position: 0% 50%;

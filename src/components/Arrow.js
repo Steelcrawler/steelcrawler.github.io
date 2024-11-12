@@ -1,21 +1,57 @@
 import React from 'react';
+import { motion, useInView } from 'framer-motion';
 
-const Arrow = ({ size, target }) => (
-  <a href={target} className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-    <svg
-      className="text-orange-500 hover:text-orange-600 transition-colors duration-300"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: `${size}px`, height: `${size}px`, opacity: 0.7 }}
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 15a1 1 0 01-.707-.293l-5-5a1 1 0 111.414-1.414L10 12.586l4.293-4.293a1 1 0 111.414 1.414l-5 5A1 1 0 0110 15z"
-        clipRule="evenodd"
-      />
-    </svg>
-  </a>
-);
+const Arrow = ({ size, target }) => {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  return (
+    <a ref={ref} href={target} className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+      <svg
+        className="text-orange-500 hover:text-orange-600 transition-colors duration-300"
+        fill="none"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: `${size}px`, height: `${size}px`, opacity: 0.7 }}
+      >
+        {/* Left line of the arrow */}
+        <motion.line
+          x1="5"
+          y1="8.5"
+          x2="10"
+          y2="13.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+          transition={{
+            duration: 1.5,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        
+        {/* Right line of the arrow */}
+        <motion.line
+          x1="15"
+          y1="8.5"
+          x2="10"
+          y2="13.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+          transition={{
+            duration: 1.5,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+      </svg>
+    </a>
+  );
+};
 
 export default Arrow;

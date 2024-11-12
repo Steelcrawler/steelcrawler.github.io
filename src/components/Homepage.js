@@ -1,27 +1,49 @@
-import React, { useEffect, useState, useRef } from 'react';
-import '../index.css'; // Correct the path to the Tailwind CSS file
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import HeroSection from './HeroSection';
 import AboutSection from './AboutSection';
 import ProjectsSection from './ProjectsSection';
 import SkillsSection from './SkillsSection';
-import ContactSection from './ContactSection';
+import './styles.css';
 
 const Home = () => {
-  const [arrowSize, setArrowSize] = useState(window.innerHeight / 6); // Initial size of the arrow
+  const [arrowSize, setArrowSize] = useState(window.innerHeight / 6);
   const heroSectionRef = useRef(null);
+  const [showName, setShowName] = useState(true);
+  const [nameSize, setNameSize] = useState('text-4xl sm:text-6xl');
+
+  const { scrollY } = useScroll();
+  const scaleX = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const scrollPercentage = scrollPosition / maxScroll;
-      document.body.style.backgroundPosition = `center ${scrollPercentage * 100}%`;
+    return scrollY.onChange((latest) => {
+      if (latest > 0) {
+        setShowName(false);
+      } else {
+        setShowName(true);
+      }
+    });
+  }, [scrollY]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 640) {
+        setNameSize('text-2xl');
+      } else {
+        setNameSize('text-4xl sm:text-6xl');
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleResize(); // Initial calculation
+    window.addEventListener('resize', handleResize); // Recalculate on window resize
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -29,11 +51,11 @@ const Home = () => {
     const arrowObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          const newSize = window.innerHeight / 6; // Increase size up to one-sixth of the screen height
+          const newSize = window.innerHeight / 6;
           setArrowSize(newSize);
         }
       },
-      { threshold: [0, 0.5, 1] } // Trigger at different scroll positions
+      { threshold: [0, 0.5, 1] }
     );
 
     if (heroSectionRef.current) {
@@ -49,15 +71,26 @@ const Home = () => {
 
   return (
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
-      <div className="fixed top-0 left-0 p-5 text-orange-500 z-50">
-        <h1 className="text-4xl">Aditya Rajeev</h1>
-      </div>
-      
+      {showName && (
+        <motion.div
+          className="fixed top-2 right-2 p-5 text-orange-500 z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 0.7 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.5,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+          <h1 className={`${nameSize}`}>Aditya Rajeev</h1>
+        </motion.div>
+      )}
+
       <HeroSection arrowSize={arrowSize} />
       <AboutSection arrowSize={arrowSize} />
       <ProjectsSection arrowSize={arrowSize} />
       <SkillsSection arrowSize={arrowSize} />
-      <ContactSection arrowSize={arrowSize} />
+      <motion.div className="progress" style={{ scaleX }} />
     </div>
   );
 };
